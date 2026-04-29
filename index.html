@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<h2>Lista de Produtos</h2>
+<h2 id="tituloRua">Lista de Produtos</h2>
 <select id="filtroAndar">
   <option value="">Todos os andares</option>
   <option value="T">Térreo</option>
@@ -1730,6 +1730,12 @@ const dados = [
 const params = new URLSearchParams(window.location.search);
 const rua = params.get("rua");
 const andar = params.get("andar");
+
+const tituloRua = document.getElementById("tituloRua");
+
+if (rua) {
+  tituloRua.textContent = `RUA ${rua}`;
+}
 
 const lista = document.getElementById("lista");
 const filtroAndar = document.getElementById("filtroAndar");
