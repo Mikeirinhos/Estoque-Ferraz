@@ -7,9 +7,30 @@
 <body>
 
 <h2>Lista de Produtos</h2>
+<select id="filtroAndar">
+  <option value="">Todos os andares</option>
+  <option value="T">Térreo</option>
+  <option value="1">1º andar</option>
+  <option value="2">2º andar</option>
+</select>
+
+<select id="filtroColuna">
+  <option value="">Todas as colunas</option>
+</select>
+
 <ul id="lista"></ul>
 
 <script>
+
+const filtroColuna = document.getElementById("filtroColuna");
+
+for (let i = 1; i <= 15; i++) {
+  const option = document.createElement("option");
+  option.value = i;
+  option.textContent = `Coluna ${i}`;
+  filtroColuna.appendChild(option);
+}
+
 const dados = [
  {
    "A": "PRODUTO",
@@ -1711,18 +1732,35 @@ const rua = params.get("rua");
 const andar = params.get("andar");
 
 const lista = document.getElementById("lista");
+const filtroAndar = document.getElementById("filtroAndar");
 
-dados
-  .filter(item => 
-    item.A !== "PRODUTO" &&
-    (!rua || item.B == rua) &&
-    (!andar || item.C == andar)
-  )
-  .forEach(item => {
-    const li = document.createElement("li");
-    li.innerHTML = `<strong>${item.A}</strong><br>Coluna: ${item.D}<hr>`;
-    lista.appendChild(li);
-  });
+function renderizar() {
+  lista.innerHTML = "";
+
+  const andarSelecionado = filtroAndar.value;
+const colunaSelecionada = filtroColuna.value;
+
+
+  dados
+    .filter(item => 
+  item.A !== "PRODUTO" &&
+  (!rua || item.B == rua) &&
+  (!andarSelecionado || item.C == andarSelecionado) &&
+  (!colunaSelecionada || item.D == colunaSelecionada)
+)
+
+    .forEach(item => {
+      const li = document.createElement("li");
+      li.innerHTML = `<strong>${item.A}</strong><br>Coluna: ${item.D}<hr>`;
+      lista.appendChild(li);
+    });
+}
+
+filtroAndar.addEventListener("change", renderizar);
+filtroColuna.addEventListener("change", renderizar);
+
+// primeira execução
+renderizar();
 </script>
 
 </body>
