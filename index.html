@@ -5,6 +5,14 @@
   <title>Estoque</title>
 
   <style>
+
+    .filtros {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
   body {
     font-family: Arial, sans-serif;
     margin: 20px;
@@ -33,6 +41,8 @@
 </head>
 <body>
 
+    <div class="filtros">
+
 <h2 id="tituloRua">Lista de Produtos</h2>
 <select id="filtroAndar">
   <option value="">Todos os andares</option>
@@ -44,6 +54,8 @@
 <select id="filtroColuna">
   <option value="">Todas as colunas</option>
 </select>
+
+</div>
 
 <ul id="lista"></ul>
 
@@ -1784,7 +1796,7 @@ const colunaSelecionada = filtroColuna.value;
 
     .forEach(item => {
       const li = document.createElement("li");
-      li.innerHTML = `<strong>${item.A}</strong><br>Coluna: ${item.D}<hr>`;
+      li.innerHTML = `<strong>${item.A}</strong>`;
       lista.appendChild(li);
     });
 }
