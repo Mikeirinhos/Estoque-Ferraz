@@ -5,54 +5,84 @@
   <title>Estoque</title>
 
   <style>
+    
+    .lista-container {
+  background: #999595;
+  margin: 15px;
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
 
-   <style>
   body {
     font-family: Arial, sans-serif;
     margin: 0;
-    background: #121212;
-    color: #ffffff;
+    background: #f2f2f2;
+    color: #333;
   }
 
   h2 {
     text-align: center;
     padding: 15px;
-    background: #1e1e1e;
+    background: #ffffff;
     margin: 0;
     font-size: 20px;
+    border-bottom: 1px solid #ddd;
   }
 
   .filtros {
-    background: #1e1e1e;
+    background: #ffffff;
     padding: 15px;
     margin: 15px;
     border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
   }
 
   select {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 10px;
-    font-size: 16px;
-    border-radius: 8px;
-    border: none;
-    background: #2a2a2a;
-    color: white;
-  }
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #e6e6e6;
+  color: #333;
+  cursor: pointer;
+  transition: background 0.2s ease, border 0.2s ease;
+}
 
+select:hover {
+  background: #dcdcdc;
+  border-color: #c2c0c0;
+}
+
+select:focus,
+select:active {
+  background: #e6e6e6; /* volta ao normal */
+  border-color: #ccc;
+  outline: none;
+}
   ul {
     padding: 10px;
   }
 
   li {
-    background: #1e1e1e;
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    list-style: none;
-    font-size: 16px;
+  background: transparent;
+  padding: 10px 0;
+  margin: 0;
+  list-style: none;
+  font-size: 16px;
+  border-bottom: none;
+}
+
+  li:hover {
+    background: #525252;
   }
-</style>
+
+  p {
+    color: #666;
+    font-size: 15px;
+  }
 </style>
 </head>
 <body>
@@ -61,19 +91,21 @@
 
 <h2 id="tituloRua">Lista de Produtos</h2>
 <select id="filtroAndar">
-  <option value="">Todos os andares</option>
+  <option value="">Andares</option>
   <option value="T">Térreo</option>
   <option value="1">1º andar</option>
   <option value="2">2º andar</option>
 </select>
 
 <select id="filtroColuna">
-  <option value="">Todas as colunas</option>
+  <option value="">Colunas</option>
 </select>
 
 </div>
 
-<ul id="lista"></ul>
+<div class="lista-container">
+  <ul id="lista"></ul>
+</div>
 
 <script>
 
@@ -1797,6 +1829,11 @@ const filtroAndar = document.getElementById("filtroAndar");
 
 function renderizar() {
   lista.innerHTML = "";
+
+  if (!filtroAndar.value && !filtroColuna.value) {
+  lista.innerHTML = "<p style='text-align:center;'>Selecione um filtro para visualizar os produtos</p>";
+  return;
+}
 
   const andarSelecionado = filtroAndar.value;
 const colunaSelecionada = filtroColuna.value;
