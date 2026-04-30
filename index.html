@@ -173,7 +173,7 @@ if (rua) {
 const lista = document.getElementById("lista");
 const filtroAndar = document.getElementById("filtroAndar");
 
-function renderizar() {
+function renderizar(dados) {
   lista.innerHTML = "";
 
   if (!filtroAndar.value && !filtroColuna.value) {
@@ -207,7 +207,6 @@ filtroColuna.addEventListener("change", renderizar);
 filtroAndar.addEventListener("input", renderizar);
 filtroColuna.addEventListener("input", renderizar);
 
-// primeira execução
 renderizar();
 </script>
 
