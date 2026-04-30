@@ -149,7 +149,7 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS_k6TpswY-mTiwtpRITtbOmH
       const valores = linhas[i].split(",");
 
       // ignora linhas vazias
-      if (valores.length < 2) continue;
+      if (!valores[0]) continue;
 
       let obj = {};
 
@@ -212,7 +212,7 @@ function renderizar() {
 
   filtrados.forEach(item => {
     const li = document.createElement("li");
-    li.innerHTML = `<strong>${item.A}</strong><hr>`;
+    li.innerHTML = `<strong>${item.PRODUTO}</strong><hr>`;
     lista.appendChild(li);
   });
 }
