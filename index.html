@@ -183,10 +183,7 @@ const lista = document.getElementById("lista");
 const filtroAndar = document.getElementById("filtroAndar");
 
 function renderizar() {
-  if (!Array.isArray(dados)) {
-    console.log("dados NÃO é array:", dados);
-    return;
-  }
+  if (!Array.isArray(dados)) return;
 
   lista.innerHTML = "";
 
@@ -198,13 +195,25 @@ function renderizar() {
   const andarSelecionado = filtroAndar.value;
   const colunaSelecionada = filtroColuna.value;
 
-  dados
-    .filter(item => 
-  item.PRODUTO !== "PRODUTO" &&
-  (!rua || item.RUA == rua) &&
-  (!andarSelecionado || item.ANDAR == andarSelecionado) &&
-  (!colunaSelecionada || item.COLUNA == colunaSelecionada)
-)
+  const filtrados = dados.filter(item => {
+    return (
+      item.PRODUTO !== "PRODUTO" &&
+      (!rua || item.RUA == rua) &&
+      (!andarSelecionado || item.ANDAR == andarSelecionado) &&
+      (!colunaSelecionada || item.COLUNA == colunaSelecionada)
+    );
+  });
+
+  if (filtrados.length === 0) {
+    lista.innerHTML = "<p style='text-align:center;'>Nenhum item encontrado</p>";
+    return;
+  }
+
+  filtrados.forEach(item => {
+    const li = document.createElement("li");
+    li.textContent = `${item.PRODUTO} | Andar: ${item.ANDAR} | Coluna: ${item.COLUNA}`;
+    lista.appendChild(li);
+  });
 }
 
 filtroAndar.addEventListener("change", renderizar);
