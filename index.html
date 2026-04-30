@@ -154,7 +154,8 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS_k6TpswY-mTiwtpRITtbOmH
       let obj = {};
 
       cabecalho.forEach((coluna, index) => {
-        obj[coluna.trim().toUpperCase()] = valores[index]?.trim();
+        const key = coluna.trim().toUpperCase();
+obj[key] = (valores[index] ?? "").trim();
       });
 
       dados.push(obj);
