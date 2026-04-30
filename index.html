@@ -100,15 +100,15 @@ select:active {
   <h3 class="titulo-bloco">FILTROS</h3>
 
   <select id="filtroAndar">
-  <option value="">Andares</option>
-  <option value="T">Térreo</option>
-  <option value="1">1º andar</option>
-  <option value="2">2º andar</option>
-</select>
+    <option value="">Andares</option>
+    <option value="T">Térreo</option>
+    <option value="1">1º andar</option>
+    <option value="2">2º andar</option>
+  </select>
 
-<select id="filtroColuna">
-  <option value="">Colunas</option>
-</select>
+  <select id="filtroColuna">
+    <option value="">Colunas</option>
+  </select>
 
 </div>
 
@@ -1827,7 +1827,7 @@ const params = new URLSearchParams(window.location.search);
 const rua = params.get("rua");
 const andar = params.get("andar");
 
-<h2 id="tituloRua"></h2>
+const tituloRua = document.getElementById("tituloRua");
 
 if (rua) {
   tituloRua.textContent = `RUA ${rua}`;
@@ -1837,31 +1837,11 @@ const lista = document.getElementById("lista");
 const filtroAndar = document.getElementById("filtroAndar");
 
 function renderizar() {
-  console.log("Andar:", filtroAndar.value);
-  console.log("Coluna:", filtroColuna.value);
-
   lista.innerHTML = "";
 
   if (!filtroAndar.value && !filtroColuna.value) {
-    lista.innerHTML = "<p style='text-align:center;'>Selecione um filtro para visualizar os produtos</p>";
-    return;
-  }
-
-  dados
-    .filter(item => {
-      if (item.A === "PRODUTO") return false;
-
-      if (rua && item.B != rua) return false;
-      if (filtroAndar.value && item.C != filtroAndar.value) return false;
-      if (filtroColuna.value && item.D != filtroColuna.value) return false;
-
-      return true;
-    })
-    .forEach(item => {
-      const li = document.createElement("li");
-      li.innerHTML = `<strong>${item.A}</strong>`;
-      lista.appendChild(li);
-    });
+  lista.innerHTML = "<p style='text-align:center;'>Selecione um filtro para visualizar os produtos</p>";
+  return;
 }
 
   const andarSelecionado = filtroAndar.value;
@@ -1869,15 +1849,12 @@ const colunaSelecionada = filtroColuna.value;
 
 
   dados
-    .filter(item => {
-  if (item.A === "PRODUTO") return false;
-
-  if (rua && item.B != rua) return false;
-  if (filtroAndar.value && item.C != filtroAndar.value) return false;
-  if (filtroColuna.value && item.D != filtroColuna.value) return false;
-
-  return true;
-})
+    .filter(item => 
+  item.A !== "PRODUTO" &&
+  (!rua || item.B == rua) &&
+  (!andarSelecionado || item.C == andarSelecionado) &&
+  (!colunaSelecionada || item.D == colunaSelecionada)
+)
 
     .forEach(item => {
       const li = document.createElement("li");
@@ -1889,10 +1866,12 @@ const colunaSelecionada = filtroColuna.value;
 filtroAndar.addEventListener("change", renderizar);
 filtroColuna.addEventListener("change", renderizar);
 
+// força atualização também no toque (mobile)
+filtroAndar.addEventListener("input", renderizar);
+filtroColuna.addEventListener("input", renderizar);
 
 // primeira execução
-renderizar(console.log("Andar:", filtroAndar.value);
-console.log("Coluna:", filtroColuna.value);)
+renderizar();
 </script>
 
 </body>
