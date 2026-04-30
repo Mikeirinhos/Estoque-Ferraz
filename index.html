@@ -154,7 +154,7 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS_k6TpswY-mTiwtpRITtbOmH
       let obj = {};
 
       cabecalho.forEach((coluna, index) => {
-        obj[coluna.trim()] = valores[index]?.trim();
+        obj[coluna.trim().toUpperCase()] = valores[index]?.trim();
       });
 
       dados.push(obj);
@@ -199,17 +199,13 @@ function renderizar() {
   const colunaSelecionada = filtroColuna.value;
 
   dados
-  .filter(item => 
-    item.PRODUTO !== "PRODUTO" &&
-    (!rua || item.RUA == rua) &&
-    (!andarSelecionado || item.ANDAR == andarSelecionado) &&
-    (!colunaSelecionada || item.COLUNA == colunaSelecionada)
-  )
-  .forEach(item => {
-    const li = document.createElement("li");
-    li.innerHTML = `<strong>${item.PRODUTO}</strong>`;
-    lista.appendChild(li);
-  });
+    .filter(item => 
+  item.PRODUTO !== "PRODUTO" &&
+  (!rua || item.RUA == rua) &&
+  (!andarSelecionado || item.ANDAR == andarSelecionado) &&
+  (!colunaSelecionada || item.COLUNA == colunaSelecionada)
+)
+}
 
 filtroAndar.addEventListener("change", renderizar);
 filtroColuna.addEventListener("change", renderizar);
