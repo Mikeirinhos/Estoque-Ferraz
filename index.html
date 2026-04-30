@@ -1845,15 +1845,15 @@ function renderizar() {
 }
 
   const andarSelecionado = filtroAndar.value;
-const colunaSelecionada = filtroColuna.value.toString();
+const colunaSelecionada = filtroColuna.value;
 
 
   dados
     .filter(item => 
   item.A !== "PRODUTO" &&
-  (!rua || item.B.toString().trim() === rua.toString().trim()) &&
-  (!andarSelecionado || item.C.toString().trim() === andarSelecionado.toString().trim()) &&
-  (!colunaSelecionada || item.D.toString().trim() === colunaSelecionada.toString().trim())
+  (!rua || item.B == rua) &&
+  (!andarSelecionado || item.C == andarSelecionado) &&
+  (!colunaSelecionada || item.D == colunaSelecionada)
 )
 
     .forEach(item => {
