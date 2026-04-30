@@ -186,16 +186,16 @@ const colunaSelecionada = filtroColuna.value;
 
 
   dados
-    .filter(item => 
-  item.A !== "PRODUTO" &&
-  (!rua || item.B == rua) &&
-  (!andarSelecionado || item.C == andarSelecionado) &&
-  (!colunaSelecionada || item.D == colunaSelecionada)
+  .filter(item => 
+    item["Produto"] &&
+    (!rua || item["Rua"] == rua) &&
+    (!andarSelecionado || item["Andar"] == andarSelecionado) &&
+    (!colunaSelecionada || item["Coluna"] == colunaSelecionada)
 )
 
     .forEach(item => {
       const li = document.createElement("li");
-      li.innerHTML = `<strong>${item.A}</strong>`;
+      li.innerHTML = `<strong>${item["Produto"]}</strong>`;
       lista.appendChild(li);
     });
 }
