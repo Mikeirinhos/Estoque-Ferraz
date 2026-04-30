@@ -136,8 +136,6 @@ for (let i = 1; i <= 15; i++) {
 
 let dados = [];
 
-let dados = [];
-
 fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS_k6TpswY-mTiwtpRITtbOmHgegazdroKBaKCwGUj62W01RqRfFNueAFdYE90wYzxndAQ6JCO8eGFn/pub?gid=288876170&single=true&output=csv")
   .then(res => res.text())
   .then(csv => {
@@ -201,13 +199,17 @@ function renderizar() {
   const colunaSelecionada = filtroColuna.value;
 
   dados
-    .filter(item => item) // proteção extra
-    .forEach(item => {
-      const li = document.createElement("li");
-      li.innerHTML = `<strong>${item["Produto"]}</strong>`;
-      lista.appendChild(li);
-    });
-}
+  .filter(item => 
+    item.PRODUTO !== "PRODUTO" &&
+    (!rua || item.RUA == rua) &&
+    (!andarSelecionado || item.ANDAR == andarSelecionado) &&
+    (!colunaSelecionada || item.COLUNA == colunaSelecionada)
+  )
+  .forEach(item => {
+    const li = document.createElement("li");
+    li.innerHTML = `<strong>${item.PRODUTO}</strong>`;
+    lista.appendChild(li);
+  });
 
 filtroAndar.addEventListener("change", renderizar);
 filtroColuna.addEventListener("change", renderizar);
