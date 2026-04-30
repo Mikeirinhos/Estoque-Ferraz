@@ -211,7 +211,7 @@ function renderizar() {
 
   filtrados.forEach(item => {
     const li = document.createElement("li");
-    li.textContent = `${item.PRODUTO} | Andar: ${item.ANDAR} | Coluna: ${item.COLUNA}`;
+    li.textContent = item.PRODUTO;
     lista.appendChild(li);
   });
 }
