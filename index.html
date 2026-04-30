@@ -5,6 +5,12 @@
   <title>Estoque</title>
 
   <style>
+
+    select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
     
     .lista-container {
   background: #999595;
@@ -17,6 +23,7 @@
   body {
     font-family: Arial, sans-serif;
     margin: 0;
+    padding: 15px;
     background: #f2f2f2;
     color: #333;
   }
@@ -40,10 +47,10 @@
 
   select {
   width: 100%;
-  padding: 12px;
-  margin-bottom: 10px;
-  font-size: 16px;
-  border-radius: 8px;
+  padding: 16px; /* aumentamos */
+  margin-bottom: 12px;
+  font-size: 18px; /* maior */
+  border-radius: 10px;
   border: 1px solid #ccc;
   background: #e6e6e6;
   color: #333;
@@ -86,20 +93,22 @@ select:active {
 </style>
 </head>
 <body>
+  
 
-    <div class="filtros">
+  <div class="bloco-filtros">
 
-<h2 id="tituloRua">Lista de Produtos</h2>
-<select id="filtroAndar">
-  <option value="">Andares</option>
-  <option value="T">Térreo</option>
-  <option value="1">1º andar</option>
-  <option value="2">2º andar</option>
-</select>
+  <h3 class="titulo-bloco">FILTROS</h3>
 
-<select id="filtroColuna">
-  <option value="">Colunas</option>
-</select>
+  <select id="filtroAndar">
+    <option value="">Andares</option>
+    <option value="T">Térreo</option>
+    <option value="1">1º andar</option>
+    <option value="2">2º andar</option>
+  </select>
+
+  <select id="filtroColuna">
+    <option value="">Colunas</option>
+  </select>
 
 </div>
 
