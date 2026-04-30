@@ -136,27 +136,38 @@ for (let i = 1; i <= 15; i++) {
 
 let dados = [];
 
+let dados = [];
+
 fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS_k6TpswY-mTiwtpRITtbOmHgegazdroKBaKCwGUj62W01RqRfFNueAFdYE90wYzxndAQ6JCO8eGFn/pub?gid=288876170&single=true&output=csv")
   .then(res => res.text())
   .then(csv => {
-    const linhas = csv.split("\n");
+    const linhas = csv.trim().split("\n");
+
     const cabecalho = linhas[0].split(",");
 
-    dados = linhas.slice(1).map(linha => {
-      const valores = linha.split(",");
+    dados = [];
+
+    for (let i = 1; i < linhas.length; i++) {
+      const valores = linhas[i].split(",");
+
+      // ignora linhas vazias
+      if (valores.length < 2) continue;
+
       let obj = {};
 
-      cabecalho.forEach((coluna, i) => {
-        obj[coluna.trim()] = valores[i]?.trim();
+      cabecalho.forEach((coluna, index) => {
+        obj[coluna.trim()] = valores[index]?.trim();
       });
 
-      return obj;
-    });
+      dados.push(obj);
+    }
 
-    console.log(dados[0]);
+    console.log("DADOS OK:", dados);
 
-    // 👉 AQUI você chama sua função principal
-    renderizar(dados);
+    renderizar();
+  })
+  .catch(err => {
+    console.error("ERRO FETCH:", err);
   });
 
 // pega parâmetros da URL
@@ -174,26 +185,23 @@ const lista = document.getElementById("lista");
 const filtroAndar = document.getElementById("filtroAndar");
 
 function renderizar() {
-  if (!Array.isArray(dados)) return;
+  if (!Array.isArray(dados)) {
+    console.log("dados NÃO é array:", dados);
+    return;
+  }
+
   lista.innerHTML = "";
 
   if (!filtroAndar.value && !filtroColuna.value) {
-  lista.innerHTML = "<p style='text-align:center;'>Selecione um filtro para visualizar os produtos</p>";
-  return;
-}
+    lista.innerHTML = "<p style='text-align:center;'>Selecione um filtro para visualizar os produtos</p>";
+    return;
+  }
 
   const andarSelecionado = filtroAndar.value;
-const colunaSelecionada = filtroColuna.value;
-
+  const colunaSelecionada = filtroColuna.value;
 
   dados
-  .filter(item => 
-    item["Produto"] &&
-    (!rua || item["Rua"] == rua) &&
-    (!andarSelecionado || item["Andar"] == andarSelecionado) &&
-    (!colunaSelecionada || item["Coluna"] == colunaSelecionada)
-)
-
+    .filter(item => item) // proteção extra
     .forEach(item => {
       const li = document.createElement("li");
       li.innerHTML = `<strong>${item["Produto"]}</strong>`;
