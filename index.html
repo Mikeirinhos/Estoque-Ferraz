@@ -1851,9 +1851,9 @@ const colunaSelecionada = filtroColuna.value.toString();
   dados
     .filter(item => 
   item.A !== "PRODUTO" &&
-  (!rua || item.B == rua) &&
-  (!andarSelecionado || item.C.toString() === andarSelecionado) &&
-  (!colunaSelecionada || item.D.toString() === colunaSelecionada)
+  (!rua || item.B.toString().trim() === rua.toString().trim()) &&
+  (!andarSelecionado || item.C.toString().trim() === andarSelecionado.toString().trim()) &&
+  (!colunaSelecionada || item.D.toString().trim() === colunaSelecionada.toString().trim())
 )
 
     .forEach(item => {
