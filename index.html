@@ -100,15 +100,15 @@ select:active {
   <h3 class="titulo-bloco">FILTROS</h3>
 
   <select id="filtroAndar">
-    <option value="">Andares</option>
-    <option value="T">Térreo</option>
-    <option value="1">1º andar</option>
-    <option value="2">2º andar</option>
-  </select>
+  <option value="" disabled selected>Andares</option>
+  <option value="T">Térreo</option>
+  <option value="1">1º andar</option>
+  <option value="2">2º andar</option>
+</select>
 
-  <select id="filtroColuna">
-    <option value="">Colunas</option>
-  </select>
+<select id="filtroColuna">
+  <option value="" disabled selected>Colunas</option>
+</select>
 
 </div>
 
@@ -1849,12 +1849,15 @@ const colunaSelecionada = filtroColuna.value;
 
 
   dados
-    .filter(item => 
-  item.A !== "PRODUTO" &&
-  (!rua || item.B == rua) &&
-  (!andarSelecionado || item.C == andarSelecionado) &&
-  (!colunaSelecionada || item.D == colunaSelecionada)
-)
+    .filter(item => {
+  if (item.A === "PRODUTO") return false;
+
+  if (rua && item.B != rua) return false;
+  if (filtroAndar.value && item.C != filtroAndar.value) return false;
+  if (filtroColuna.value && item.D != filtroColuna.value) return false;
+
+  return true;
+})
 
     .forEach(item => {
       const li = document.createElement("li");
