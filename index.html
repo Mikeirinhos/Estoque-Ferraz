@@ -1866,6 +1866,9 @@ const colunaSelecionada = filtroColuna.value;
 filtroAndar.addEventListener("change", renderizar);
 filtroColuna.addEventListener("change", renderizar);
 
+filtroAndar.addEventListener("blur", renderizar);
+filtroColuna.addEventListener("blur", renderizar);
+
 // força atualização também no toque (mobile)
 filtroAndar.addEventListener("input", renderizar);
 filtroColuna.addEventListener("input", renderizar);
