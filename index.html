@@ -226,12 +226,18 @@ function renderizar() {
 }
 
   const filtrados = dados.filter(item => {
+
+  // 🔍 MODO BUSCA (ignora tudo)
+  if (termoBusca) {
+    return normalizar(item.PRODUTO || "").includes(termoBusca);
+  }
+
+  // 🎯 MODO NORMAL (com filtros)
   return (
     item.PRODUTO !== "PRODUTO" &&
-    (!termoBusca ? (!rua || item.RUA == rua) : true)
+    (!rua || item.RUA == rua) &&
     (!andarSelecionado || item.ANDAR == andarSelecionado) &&
-    (!colunaSelecionada || item.COLUNA == colunaSelecionada) &&
-    (!termoBusca || normalizar(item.PRODUTO).includes(termoBusca))
+    (!colunaSelecionada || item.COLUNA == colunaSelecionada)
   );
 });
 
@@ -242,7 +248,11 @@ function renderizar() {
 
   filtrados.forEach(item => {
     const li = document.createElement("li");
-    li.innerHTML = `<strong>${item.PRODUTO}</strong><hr>`;
+    li.innerHTML = `
+  <strong>${item.PRODUTO}</strong><br>
+  <small>Rua: ${item.RUA} | Andar: ${item.ANDAR} | Coluna: ${item.COLUNA}</small>
+  <hr>
+`;
     lista.appendChild(li);
   });
 }
