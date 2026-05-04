@@ -219,9 +219,7 @@ function renderizar() {
   const colunaSelecionada = filtroColuna.value;
   const termoBusca = normalizar(buscaInput.value);
 
-  if (termoBusca) {
-  tituloRua.textContent = "RESULTADOS DA BUSCA";
-} else if (rua) {
+  if (rua) {
   tituloRua.textContent = `RUA ${rua}`;
 }
 
