@@ -6,6 +6,15 @@
 
   <style>
 
+    .input-busca {
+  width: 100%;
+  padding: 12px;
+  margin: 15px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
     li {
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -94,15 +103,15 @@ select:active {
 </style>
 </head>
 <body>
-  
+
+  <h2 id="tituloRua"></h2>
+
   <input 
   type="text" 
   id="busca" 
   placeholder="Buscar produto..."
   style="width:100%; padding:12px; margin-bottom:10px; border-radius:8px; border:1px solid #ccc;"
 >
-
-  <h2 id="tituloRua"></h2>
 
   <div class="bloco-filtros">
 
@@ -184,6 +193,15 @@ if (rua) {
 
 const lista = document.getElementById("lista");
 const filtroAndar = document.getElementById("filtroAndar");
+const buscaInput = document.getElementById("busca");
+const normalizar = (texto) => {
+  return (texto ?? "")
+    .toString()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim();
+};
 
 function renderizar() {
   if (!Array.isArray(dados)) return;
@@ -197,15 +215,17 @@ function renderizar() {
 
   const andarSelecionado = filtroAndar.value;
   const colunaSelecionada = filtroColuna.value;
+  const termoBusca = normalizar(buscaInput.value);
 
   const filtrados = dados.filter(item => {
-    return (
-      item.PRODUTO !== "PRODUTO" &&
-      (!rua || item.RUA == rua) &&
-      (!andarSelecionado || item.ANDAR == andarSelecionado) &&
-      (!colunaSelecionada || item.COLUNA == colunaSelecionada)
-    );
-  });
+  return (
+    item.PRODUTO !== "PRODUTO" &&
+    (!rua || item.RUA == rua) &&
+    (!andarSelecionado || item.ANDAR == andarSelecionado) &&
+    (!colunaSelecionada || item.COLUNA == colunaSelecionada) &&
+    (!termoBusca || normalizar(item.PRODUTO).includes(termoBusca))
+  );
+});
 
   if (filtrados.length === 0) {
     lista.innerHTML = "<p style='text-align:center;'>Nenhum item encontrado</p>";
@@ -221,6 +241,7 @@ function renderizar() {
 
 filtroAndar.addEventListener("change", renderizar);
 filtroColuna.addEventListener("change", renderizar);
+buscaInput.addEventListener("input", renderizar);
 
 // força atualização também no toque (mobile)
 filtroAndar.addEventListener("input", renderizar);
