@@ -175,6 +175,8 @@ obj[key] = (valores[index] ?? "").trim();
     console.log("DADOS OK:", dados);
 
     renderizar();
+    
+    console.log(dados[0].PRODUTO);
   })
   .catch(err => {
     console.error("ERRO FETCH:", err);
