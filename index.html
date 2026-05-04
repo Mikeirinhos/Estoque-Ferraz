@@ -175,7 +175,7 @@ obj[key] = (valores[index] ?? "").trim();
     console.log("DADOS OK:", dados);
 
     renderizar();
-    
+
     console.log(dados[0].PRODUTO);
   })
   .catch(err => {
@@ -210,19 +210,25 @@ function renderizar() {
 
   lista.innerHTML = "";
 
-  if (!filtroAndar.value && !filtroColuna.value) {
-    lista.innerHTML = "<p style='text-align:center;'>Selecione um filtro para visualizar os produtos</p>";
-    return;
-  }
+  if (!filtroAndar.value && !filtroColuna.value && !buscaInput.value) {
+  lista.innerHTML = "<p style='text-align:center;'>Selecione um filtro ou pesquise um produto</p>";
+  return;
+}
 
   const andarSelecionado = filtroAndar.value;
   const colunaSelecionada = filtroColuna.value;
   const termoBusca = normalizar(buscaInput.value);
 
+  if (termoBusca) {
+  tituloRua.textContent = "RESULTADOS DA BUSCA";
+} else if (rua) {
+  tituloRua.textContent = `RUA ${rua}`;
+}
+
   const filtrados = dados.filter(item => {
   return (
     item.PRODUTO !== "PRODUTO" &&
-    (!rua || item.RUA == rua) &&
+    (!termoBusca ? (!rua || item.RUA == rua) : true)
     (!andarSelecionado || item.ANDAR == andarSelecionado) &&
     (!colunaSelecionada || item.COLUNA == colunaSelecionada) &&
     (!termoBusca || normalizar(item.PRODUTO).includes(termoBusca))
