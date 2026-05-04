@@ -225,12 +225,19 @@ function renderizar() {
 
   const filtrados = dados.filter(item => {
 
-  // 🔍 MODO BUSCA (ignora tudo)
+  // 🔍 MODO BUSCA
   if (termoBusca) {
-    return normalizar(item.PRODUTO || "").includes(termoBusca);
+
+    const palavrasBusca = termoBusca
+      .split(" ")
+      .filter(p => p.length > 0);
+
+    return palavrasBusca.every(palavra =>
+      normalizar(item.PRODUTO || "").includes(palavra)
+    );
   }
 
-  // 🎯 MODO NORMAL (com filtros)
+  // 🎯 MODO NORMAL (filtros)
   return (
     item.PRODUTO !== "PRODUTO" &&
     (!rua || item.RUA == rua) &&
