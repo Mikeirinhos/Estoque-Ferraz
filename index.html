@@ -7,9 +7,10 @@
   <style>
 
     .input-busca {
-  width: calc(100% - 30px); /* igual margem dos filtros */
+  display: block;
+  width: calc(100% - 30px);
   margin: 15px;
-  margin-top: 15px; /* espaço da "RUA 1" */
+  margin-top: 20px; /* espaço da RUA */
   padding: 12px;
   border-radius: 10px;
   border: 1px solid #ccc;
@@ -112,7 +113,7 @@ select:active {
   type="text" 
   id="busca" 
   placeholder="Buscar produto..."
-  style="width:100%; padding:12px; margin-bottom:10px; border-radius:8px; border:1px solid #ccc;"
+  class="input-busca"
 >
 
   <div class="bloco-filtros">
