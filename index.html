@@ -104,6 +104,8 @@ select:active {
     font-size: 15px;
   }
 </style>
+
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
 <body>
 
@@ -153,27 +155,20 @@ let dados = [];
 fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS_k6TpswY-mTiwtpRITtbOmHgegazdroKBaKCwGUj62W01RqRfFNueAFdYE90wYzxndAQ6JCO8eGFn/pub?gid=288876170&single=true&output=csv")
   .then(res => res.text())
   .then(csv => {
-    const linhas = csv.trim().split("\n");
+    const resultado = Papa.parse(csv, {
+  header: true,
+  skipEmptyLines: true
+});
 
-    const cabecalho = linhas[0].split(",");
+dados = resultado.data.map(item => {
+  let novoItem = {};
 
-    dados = [];
+  Object.keys(item).forEach(chave => {
+    novoItem[chave.trim().toUpperCase()] = item[chave];
+  });
 
-    for (let i = 1; i < linhas.length; i++) {
-      const valores = linhas[i].split(",");
-
-      // ignora linhas vazias
-      if (!valores[0]) continue;
-
-      let obj = {};
-
-      cabecalho.forEach((coluna, index) => {
-        const key = coluna.trim().toUpperCase();
-obj[key] = (valores[index] ?? "").trim();
-      });
-
-      dados.push(obj);
-    }
+  return novoItem;
+});
 
     console.log("DADOS OK:", dados);
 
